@@ -13,8 +13,8 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./output_images/distortion_correction.png "Undistorted"
-[image2]: ./test_images/new/1031.jpg "Road Transformed"
+[image1]: ./output_images/distortion_correction_sample.png "Undistorted"
+[image2]: ./output_images/distortion_correction.png "Road Transformed"
 [image3]: ./output_images/combining_thresholds.png "Combining Threshold"
 [image4]: ./output_images/thresholds_hls_channel.png "Threshold HLS"
 [image5]: ./output_images/pipeline_threshold.png "Binary Example"
@@ -114,9 +114,9 @@ I used some steps (14th code cell):
 * First find the two starting positions for the left and right lane at the bottom of frame 
 * Go through each layer looking for positions for the next left and right lane using past position as a reference
 
-To optimize the result, I used length of lane to find the correct positions (line 35-48 and 88-96).
+To optimize the result, I used width of lane to find the correct positions (line 35-48 and 88-96).
 
-* Predict two positions for the left or right lane using length of lane (start with value is 470px) if we cannot get both of left and right lane positions in 1 frame.
+* Predict two positions for the left or right lane using width of lane (start with value is 470px) if we cannot get both of left and right lane positions in 1 frame.
 ```python
     if (l_max > 0 and r_max == 0): # Cannot find r_center
         l_center = l_max - offset
@@ -203,3 +203,23 @@ Here's a [link to my video result](./project_video.mp4)
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.
+
+##### 1. Techniques:
+I used all techniques which provided in all lesson of Project Advanced Lane Finding.
+To improve the result, I had some techniques:
+
+* Color Threshold with HLS image using LS channel: Combine Threshold with L channel and S channel depend on the current image has more shadow or more light.
+* Sliding Window: With cases cannot find the first left or right point, I used lenght of lane for prediction. Using history imformation is a good idea to make the lane line more smoothly. And decrease region in image for lane detetion is a good idea to remove some noise from other cars, trees ... But it make my pipeline cannot detect multiple lane line.
+
+##### 2. Cases maybe failed:
+
+* Have some noise in center of lane
+* Have too much shadow
+* Lane line is not clear
+* The curvature of lane is too big as harder_challenge_video.mp4
+* The width of lane is always changed and has not a stable value.
+
+##### 3. Improved:
+
+* Maybe combining with other techniques such as: Canny-Houghline will improve my result.
+* Other idea is using deep neural network for predict lane line. Maybe I will try this idea when I have more free time.
