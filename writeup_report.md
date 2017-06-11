@@ -133,7 +133,7 @@ To optimize the result, I used width of lane to find the correct positions (line
             else:
                 l_center = r_center - len_of_lane
 ```
-I used history information of past frame for current frame to make the lane line more smoothly (line 51-58 and 100-106).
+I used history information of past frame for current frame to make the lane line more smoothly (line 51-58 and 98-104).
 ```python
     if len(window_centroids_pre) > 0:
         l_center_pre = window_centroids_pre[0][0]
@@ -208,7 +208,8 @@ Here I'll talk about the approach I took, what techniques I used, what worked an
 I used all techniques which provided in all lesson of Project Advanced Lane Finding.
 To improve the result, I had some techniques:
 
-* Color Threshold with HLS image using LS channel: Combine Threshold with L channel and S channel depend on the current image has more shadow or more light.
+* Color Threshold with HLS image using LS channel: Combine Threshold with L channel and S channel depend on the current image has more shadow or more light. To reduce noise I applied GaussianBlur techniques after perspective transform step.
+* Perspective Transform: I increased region for detection, so I can cover all cases during processing test video because the lane is not always in the center of video.
 * Sliding Window: With cases cannot find the first left or right point, I used lenght of lane for prediction. Using history imformation is a good idea to make the lane line more smoothly. And decrease region in image for lane detetion is a good idea to remove some noise from other cars, trees ... But it make my pipeline cannot detect multiple lane line.
 
 ##### 2. Cases maybe failed:
